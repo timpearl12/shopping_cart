@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Grocery List</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    .grocery-item {
+      margin-bottom: 10px;
+    }
+    .grocery-item button {
+      margin-left: 20px;
+    }
+    .shopping-list-item {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    .shopping-list-item span {
+      margin-right: 20px;
+    }
+    .shopping-list-item button {
+      margin-left: 10px;
+    }
+  </style>
+  <script>
+    // Function to add an item to the shopping list
+    function addToShoppingList(itemIndex) {
+      var item = groceryItems[itemIndex];
+      if (item.quantity > 0) {
+        // Reduce the quantity of the selected item
+        item.quantity--;
+        // Update the supply display
+        updateSupply(itemIndex);
+
+        var shoppingList = document.getElementById("shopping-list");
+        var listItem = document.createElement("li");
+        listItem.classList.add("shopping-list-item"); // Add the shopping-list-item class
+
+        var itemNameSpan = document.createElement("span");
+        itemNameSpan.innerText = item.name;
+        listItem.appendChild(itemNameSpan);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.innerText = "Delete";
+        // Call removeFromShoppingList function when the delete button is clicked
+        deleteButton.onclick = function () {
+          removeFromShoppingList(listItem, itemIndex);
+        };
+        listItem.appendChild(deleteButton);
+
+        // Append the list item to the shopping list
+        shoppingList.appendChild(listItem);
+      }
+    }
+
+    // Function to remove an item from the shopping list
+    function removeFromShoppingList(listItem, itemIndex) {
+      // Remove the list item from the shopping list
+      listItem.parentNode.removeChild(listItem);
+      var item = groceryItems[itemIndex];
+      // Increase the quantity of the corresponding item
+      item.quantity++;
+      // Update the supply display
+      updateSupply(itemIndex);
+    }
+
+    // Function to update the supply display
+    function updateSupply(itemIndex) {
+      var supplyElement = document.getElementById("supply-" + itemIndex);
+      var item = groceryItems[itemIndex];
+      supplyElement.innerText = "Supply: " + item.quantity;
+    }
+
+    // Array to hold grocery items
+    var groceryItems = [
+      { name: "Apples", price: "$2.99", quantity: 10 },
+      { name: "Oranges", price: "$1.99", quantity: 5 },
+      { name: "Bananas", price: "$0.99", quantity: 15 },
+      { name: "Milk", price: "$3.49", quantity: 3 },
+      { name: "Bread", price: "$2.49", quantity: 8 }
+    ];
+  </script>
+</head>
+<body>
+  <div id="grocery-list">
+    <h2>Grocery List</h2>
+    <ul>
+      <!-- Display grocery items -->
+      <!-- Use the item index as the parameter for addToShoppingList function -->
+      <li class="grocery-item">
+        <span>Apples</span>
+        <span>Price: $2.99</span>
+        <span id="supply-0">Supply: 10</span>
+        <button onclick="addToShoppingList(0)">Add to Shopping List</button>
+      </li>
+      <li class="grocery-item">
+        <span>Oranges</span>
+        <span>Price: $1.99</span>
+        <span id="supply-1">Supply: 5</span>
+        <button onclick="addToShoppingList(1)">Add to Shopping List</button>
+      </li>
+      <li class="grocery-item">
+        <span>Bananas</span>
+        <span>Price: $0.99</span>
+        <span id="supply-2">Supply: 15</span>
+        <button onclick="addToShoppingList(2)">Add to Shopping List</button>
+      </li>
+      <li class="grocery-item">
+        <span>Milk</span>
+        <span>Price: $3.49</span>
+        <span id="supply-3">Supply: 3</span>
+        <button onclick="addToShoppingList(3)">Add to Shopping List</button>
+      </li>
+      <li class="grocery-item">
+        <span>Bread</span>
+        <span>Price: $2.49</span>
+        <span id="supply-4">Supply: 8</span>
+        <button onclick="addToShoppingList(4)">Add to Shopping List</button>
+      </li>
+    </ul>
+  </div>
+  <div id="shopping-list">
+    <h2>Shopping List</h2>
+    <ul></ul>
+  </div>
+</body>
+</html>
